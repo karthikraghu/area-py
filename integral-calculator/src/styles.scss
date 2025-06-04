@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+html, body { 
+  height: 100%; 
+  scroll-behavior: smooth;
+}
+
+body { 
+  margin: 0; 
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+  color: #333333;
+  line-height: 1.6;
+  background-color: #f0f5f5;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #009999;
+  opacity: 0.7;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #006666;
+}
+
+/* KaTeX Math Display - Better rendering for mathematical formulas */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+  margin: 0 !important;
+}
+
+.katex {
+  text-rendering: auto;
+  font-size: 1.15em !important;
+}
+
+/* Make sure superscripts are properly displayed */
+.katex .msupsub .mord {
+  text-align: left;
+}
+
+.katex .mfrac .frac-line {
+  border-bottom-width: 1px;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition: all 0.25s ease;
+}
+
+/* Form inputs styling */
+input, select, textarea {
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #009999;
+  box-shadow: 0 0 0 3px rgba(0, 153, 153, 0.25);
+  outline: none;
+}
+
+/* Focus outlines for accessibility */
+:focus {
+  outline: 2px solid rgba(0, 153, 153, 0.5);
+  outline-offset: 2px;
+}
+
+/* Siemens brand colors custom classes */
+.bg-siemens-green {
+  background-color: #009999 !important;
+}
+
+.text-siemens-green {
+  color: #009999 !important;
+}
+
+.border-siemens-green {
+  border-color: #009999 !important;
+}
+
+.hover\:bg-siemens-dark:hover {
+  background-color: #006666 !important;
+}
+
+.hover\:text-siemens-green:hover {
+  color: #009999 !important;
+}
+
+.bg-siemens-light {
+  background-color: #ccffff !important;
+}
+
+.bg-siemens-lightgray {
+  background-color: #f0f5f5 !important;
+}
+
+.text-siemens-gray {
+  color: #333333 !important;
+}
