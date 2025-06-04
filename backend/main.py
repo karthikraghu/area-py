@@ -11,7 +11,9 @@ app = FastAPI()
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],  # Angular dev server
+    allow_origins=["http://localhost:4200",
+                   "https://area-py-frontend.onrender.com",
+    ],  # Angular dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
