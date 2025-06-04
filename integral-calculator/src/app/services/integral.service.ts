@@ -19,7 +19,7 @@ export interface IntegralResponse {
   providedIn: 'root'
 })
 export class IntegralService {
-  private apiUrl = 'https://area-py-backend.onrender.com/';
+  private apiUrl = 'https://area-py-backend.onrender.com';
 
   constructor(private http: HttpClient) { }
 
