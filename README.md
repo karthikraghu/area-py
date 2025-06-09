@@ -106,7 +106,7 @@ cd integral-calculator
 
 - **Polynomials:** `x^n`, constants
 - **Trigonometric:** `sin`, `cos`, `tan`, `cot`, `sec`, `csc`
-- **Exponential/Logarithmic:** `exp`, `e^x`, `log`, `ln`
+- **Exponential/Logarithmic:** `exp(x)`, `log(x)`, `log(x,10)`
 - **Roots:** `sqrt(x)`
 - **Absolute value:** `Abs(x)`
 - **Compositions:** e.g., `sin(x^2)`, `e^(-x^2)`
