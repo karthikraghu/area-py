@@ -1,28 +1,43 @@
 # Integral Calculator
 
-A full-stack web application that calculates definite integrals of mathematical functions with real-time updates and visualization.
+A full-stack web application for calculating definite integrals of mathematical functions, featuring real-time updates and interactive visualization.
+
+---
 
 ## Features
 
-- Calculate definite integrals of any valid mathematical function
-- Real-time updates as you type
-- Visual representation of the function and area under the curve
-- Support for various mathematical functions (polynomials, trigonometric, exponential, etc.)
-- Error handling and validation
+- Calculate definite integrals for a wide range of mathematical functions
+- Real-time result updates as you type
+- Visualizes the function and the area under the curve
+- Supports polynomials, trigonometric, exponential, logarithmic, and composite functions
+- Robust error handling and input validation
+
+---
 
 ## Prerequisites
 
-- Python 3.8+
-- Node.js 16+
-- npm 8+
-- Angular CLI (`npm install -g @angular/cli`)
+- **Python** 3.8+
+- **Node.js** 16+
+- **npm** 8+
+- **Angular CLI**  
+  Install globally if not already present:  
+  ```bash
+  npm install -g @angular/cli
+  ```
 
-## Setup
+---
 
-### Initial Setup
+## Setup Instructions
 
-1. Clone this repository
-2. Run the setup script:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/integral-calculator.git
+cd integral-calculator
+```
+
+### 2. Run the Setup Script
+
 ```bash
 # On Windows
 .\setup.ps1
@@ -31,62 +46,87 @@ A full-stack web application that calculates definite integrals of mathematical 
 ./setup.sh
 ```
 
-### Backend Setup
+---
 
-1. Create a virtual environment (optional but recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+### 3. Backend Setup
 
-2. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
+1. **Create a virtual environment** (recommended):
+    ```bash
+    python -m venv venv
+    # On Windows:
+    venv\Scripts\activate
+    # On Unix/Linux/MacOS:
+    source venv/bin/activate
+    ```
 
-3. Start the backend server:
-```bash
-cd backend
-uvicorn main:app --reload
-```
+2. **Install Python dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-The backend will be available at http://localhost:8000
+3. **Start the backend server:**
+    ```bash
+    cd backend
+    uvicorn main:app --reload
+    ```
+    The backend will be available at [http://localhost:8000](http://localhost:8000)
 
-### Frontend Setup
+---
 
-1. Navigate to the frontend directory:
-```bash
-cd integral-calculator
-```
+### 4. Frontend Setup
 
-2. Install dependencies (if not already installed by setup script):
-```bash
-npm install
-```
+1. **Navigate to the frontend directory:**
+    ```bash
+    cd integral-calculator
+    ```
 
-3. Start the development server:
-```bash
-ng serve
-```
+2. **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-The frontend will be available at http://localhost:4200
+3. **Start the development server:**
+    ```bash
+    ng serve
+    ```
+    The frontend will be available at [http://localhost:4200](http://localhost:4200)
+
+---
 
 ## Usage
 
-1. Enter a mathematical function using standard notation (e.g., x^2, sin(x), exp(x))
-2. Set the integration limits (start_x and end_x)
-3. The result will update automatically as you type
-4. The graph will show the function and highlight the area under the curve
+1. Enter a mathematical function (e.g., `x^2`, `sin(x)`, `exp(x)`)
+2. Set the integration limits (`start_x` and `end_x`)
+3. The result and graph update automatically as you type
+4. The graph displays the function and highlights the area under the curve
+
+---
 
 ## Supported Functions
 
-- Polynomials: x^n, constants
-- Trigonometric: sin, cos, tan, cot, sec, csc
-- Exponential/logarithmic: exp, e^x, log, ln
-- Roots: sqrt(x)
-- Absolute value: Abs(x)
-- Composition (e.g., sin(x^2), e^(-x^2))
+- **Polynomials:** `x^n`, constants
+- **Trigonometric:** `sin`, `cos`, `tan`, `cot`, `sec`, `csc`
+- **Exponential/Logarithmic:** `exp`, `e^x`, `log`, `ln`
+- **Roots:** `sqrt(x)`
+- **Absolute value:** `Abs(x)`
+- **Compositions:** e.g., `sin(x^2)`, `e^(-x^2)`
+
+---
 
 ## API Documentation
 
-The backend API documentation is available at http://localhost:8000/docs when the server is running. 
+The backend API documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs) when the server is running.
+
+---
+
+## Deployment
+
+The application is deployed on [Render](https://render.com), providing seamless cloud hosting for both frontend and backend services.
+
+---
+
+## License
+
+MIT License
+
+---
