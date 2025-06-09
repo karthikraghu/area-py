@@ -54,18 +54,13 @@ async def calculate_integral(request: IntegralRequest):
                 y_values.append(float(expr.subs(x, x_val)))
             except:
                 y_values.append(None)  # Handle undefined points
-        
-        # Create list of [x, y] pairs
+          # Create list of [x, y] pairs
         function_points = [{"x": float(x_val), "y": float(y_val) if y_val is not None else None} 
-                          for x_val, y_val in zip(x_values, y_values) if y_val is not None]
-        
-        # Generate LaTeX string with proper formatting for better display
-        latex_expr = latex(expr, mode='inline')
-        
-        # Improve display of common expressions
-        if '^' in request.function_string:
-            # Ensure proper LaTeX for exponents
-            latex_expr = latex_expr.replace(r'^', r'^{') + '}'
+                          for x_val, y_val in zip(x_values, y_values) if y_val is not None]        # Generate LaTeX string without dollar signs for KaTeX display mode
+        latex_expr = latex(expr)
+        # Remove dollar signs if present since KaTeX displayMode handles them
+        if latex_expr.startswith('$') and latex_expr.endswith('$'):
+            latex_expr = latex_expr[1:-1]
         
         return IntegralResponse(
             latex_expression=latex_expr,
@@ -81,4 +76,4 @@ async def calculate_integral(request: IntegralRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8001)
