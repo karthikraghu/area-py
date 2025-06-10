@@ -102,14 +102,30 @@ cd integral-calculator
 
 ---
 
-## Supported Functions
-
-- **Polynomials:** `x^n`, constants
-- **Trigonometric:** `sin`, `cos`, `tan`, `cot`, `sec`, `csc`
-- **Exponential/Logarithmic:** `exp(x)`, `log(x)`, `log(x,10)`
-- **Roots:** `sqrt(x)`
-- **Absolute value:** `Abs(x)`
-- **Compositions:** e.g., `sin(x^2)`, `e^(-x^2)`
+- **Polynomials:**  
+  `x`, `x^2`, `2*x + 1`, etc.  
+  *Note: Use `^` for powers. The format `x**2` is not supported.*
+- **Trigonometric Functions:**  
+  `sin(x)`, `cos(x)`, `tan(x)`, `cot(x)`, `sec(x)`, `csc(x)`
+- **Exponential Functions:**  
+  `exp(x)` (for \(e^x\))  
+  *Note: Enter exponentials as `exp(x)`. The format `e^x` is not supported.*
+- **Logarithmic Functions:**  
+  `log(x)` (natural logarithm, i.e., \(\ln(x)\))  
+  `log(x, 10)` (base-10 logarithm)  
+  *Note: Enter natural logarithms as `log(x)` and base-10 logarithms as `log(x, 10)`. The formats `ln(x)` and `log10(x)` are not supported.*
+- **Roots:**  
+  `sqrt(x)`, `x^0.5`
+- **Absolute Value:**  
+  `Abs(x)`
+- **Compositions:**  
+  `sin(x^2)`, `exp(-x^2)`, `x*sin(x)`, etc.
+**Important:**  
+- Use `^` for powers (e.g., `x^2`), not `**`
+- Use `exp(x)` for exponentials  
+- Use `log(x)` for natural logarithms  
+- Use `log(x, 10)` for base-10 logarithms  
+- Do **not** use `e^x`, `ln(x)`, `log10(x)`, or `**` directly
 
 ---
 
