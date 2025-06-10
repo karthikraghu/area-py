@@ -136,6 +136,10 @@
               <span class="text-xl text-siemens-green font-semibold">{{ result.area | number:'1.6-6' }}</span>
             </div>
           </div>
+          <div class="instructions-box mt-2 text-center">
+            <strong>Instructions:</strong> Use <code>^</code> for powers (<code>x^2</code>), <code>exp(x)</code> for exponentials, <code>log(x)</code> or <code>log(x, 10)</code> for logs.
+            <span class="text-red-600 ml-2">Avoid <code>**</code>, <code>e^x</code>, <code>ln(x)</code>, <code>log10(x)</code></span>
+          </div>
 
           <div *ngIf="result.error" class="text-red-600 mt-2 text-sm">
             {{ result.error }}
