@@ -135,10 +135,13 @@
             <div class="ml-2 px-3 py-1 bg-siemens-light rounded-lg">
               <span class="text-xl text-siemens-green font-semibold">{{ result.area | number:'1.6-6' }}</span>
             </div>
-          </div>
-          <div class="instructions-box mt-2 text-center">
-            <strong>Instructions:</strong> Use <code>^</code> for powers (<code>x^2</code>), <code>exp(x)</code> for exponentials, <code>log(x)</code> or <code>log(x, 10)</code> for logs.
-            <span class="text-red-600 ml-2">Avoid <code>**</code>, <code>e^x</code>, <code>ln(x)</code>, <code>log10(x)</code></span>
+          </div>          <div class="instructions-box mt-3">
+            <div class="mb-2">
+              <strong>📝 Quick Guide:</strong> Use <code>^</code> for powers (<code>x^2</code>), <code>exp(x)</code> for exponentials, <code>log(x)</code> for natural log.
+            </div>
+            <div class="text-red-600">
+              <strong>⚠️ Avoid:</strong> <code>**</code>, <code>e^x</code>, <code>ln(x)</code>, <code>log10(x)</code>
+            </div>
           </div>
 
           <div *ngIf="result.error" class="text-red-600 mt-2 text-sm">
