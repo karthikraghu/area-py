@@ -101,6 +101,7 @@ cd integral-calculator
 4. The graph displays the function and highlights the area under the curve
 
 ---
+## Supported Functions
 
 - **Polynomials:**  
   `x`, `x^2`, `2*x + 1`, etc.  
