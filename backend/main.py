@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sympy import sympify, Symbol, latex
+from sympy import Symbol, latex
+from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
 from scipy import integrate
 import numpy as np
 from typing import Optional
@@ -36,9 +37,12 @@ async def test_endpoint():
 
 @app.post("/calculate-integral", response_model=IntegralResponse)
 async def calculate_integral(request: IntegralRequest):
-    try:        # Parse the function string
+    try:        
+        # Parse the function string with enhanced transformations for implicit multiplication
         x = Symbol('x')
-        expr = sympify(request.function_string)
+          # Use transformations that support implicit multiplication (e.g., "2x", "sin x") and convert ^ to **
+        transformations = standard_transformations + (convert_xor, implicit_multiplication_application,)
+        expr = parse_expr(request.function_string, transformations=transformations)
         
         # Convert to a callable function
         f = lambda x_val: float(expr.subs(x, x_val))

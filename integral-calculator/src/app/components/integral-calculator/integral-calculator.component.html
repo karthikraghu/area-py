@@ -32,7 +32,7 @@
                 type="text"
                 formControlName="function"
                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-siemens-green focus:ring-siemens-green bg-siemens-lightgray py-2 font-mono text-base tracking-wide px-3"
-                placeholder="Enter your function (e.g., x^2, sin(x), exp(x))"
+                placeholder="Enter your function (e.g., 2x+1, x^2, sin(x), exp(x))"
                 [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-500': integralForm.get('function')?.invalid && integralForm.get('function')?.touched}"
               >
               <div *ngIf="integralForm.get('function')?.invalid && integralForm.get('function')?.touched" class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -41,9 +41,8 @@
                 </svg>
               </div>
             </div>
-            <div class="flex flex-col">
-              <div class="text-xs text-gray-500 mt-1">
-                Supported: Basic operations, trigonometric functions, exponentials, logarithms
+            <div class="flex flex-col">              <div class="text-xs text-gray-500 mt-1">
+                Supports implicit multiplication: 2x, sin(2x), x^2+3x+1, etc. Also supports trigonometric, exponential, and logarithmic functions
               </div>
               <div *ngIf="integralForm.get('function')?.invalid && integralForm.get('function')?.touched" class="text-xs text-red-500 mt-1">
                 <span *ngIf="integralForm.get('function')?.errors?.['required']">Function is required</span>

@@ -188,6 +188,93 @@ class TestIntegralCalculatorAPI:
         data = response.json()
         # Area should be negative when limits are reversed
         assert data["area"] < 0
+    
+    def test_calculate_integral_implicit_multiplication_simple(self):
+        """Test integral calculation with implicit multiplication: 2x+1"""
+        request_data = {
+            "function_string": "2x+1",
+            "start_x": 0,
+            "end_x": 2
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of 2x + 1 from 0 to 2 should be [x^2 + x] = 4 + 2 = 6
+        assert abs(data["area"] - 6) < 0.001
+        assert "2 x + 1" in data["latex_expression"] or "2*x + 1" in data["latex_expression"]
+    
+    def test_calculate_integral_implicit_multiplication_polynomial(self):
+        """Test integral calculation with implicit multiplication: 3x^2"""
+        request_data = {
+            "function_string": "3x^2",
+            "start_x": 0,
+            "end_x": 1
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of 3x^2 from 0 to 1 should be x^3 = 1
+        assert abs(data["area"] - 1) < 0.001
+    
+    def test_calculate_integral_implicit_multiplication_complex(self):
+        """Test integral calculation with complex implicit multiplication: x^2+2x+1"""
+        request_data = {
+            "function_string": "x^2+2x+1",
+            "start_x": -1,
+            "end_x": 1
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of (x+1)^2 from -1 to 1 should be 8/3
+        assert abs(data["area"] - 8/3) < 0.01
+    
+    def test_calculate_integral_implicit_multiplication_trigonometric(self):
+        """Test integral calculation with implicit multiplication in trig functions: sin(2x)"""
+        request_data = {
+            "function_string": "sin(2x)",
+            "start_x": 0,
+            "end_x": 3.14159/2  # π/2
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of sin(2x) from 0 to π/2 should be 1
+        assert abs(data["area"] - 1) < 0.01
+    
+    def test_calculate_integral_coefficient_function(self):
+        """Test integral calculation with coefficient times function: 2sin(x)"""
+        request_data = {
+            "function_string": "2sin(x)",
+            "start_x": 0,
+            "end_x": 3.14159  # π
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of 2sin(x) from 0 to π should be 4
+        assert abs(data["area"] - 4) < 0.01
+    
+    def test_calculate_integral_caret_exponentiation(self):
+        """Test integral calculation with caret exponentiation: x^3+2x^2"""
+        request_data = {
+            "function_string": "x^3+2x^2",
+            "start_x": 0,
+            "end_x": 2
+        }
+        response = client.post("/calculate-integral", json=request_data)
+        assert response.status_code == 200
+        
+        data = response.json()
+        # The integral of x^3 + 2x^2 from 0 to 2 should be [x^4/4 + 2x^3/3] = 4 + 16/3 ≈ 9.333
+        assert abs(data["area"] - (4 + 16/3)) < 0.01
+
+    # ...existing code...
 
 
 class TestIntegralRequestModel:

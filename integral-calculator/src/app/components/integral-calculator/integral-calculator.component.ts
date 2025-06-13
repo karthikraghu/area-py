@@ -58,7 +58,7 @@ export class IntegralCalculatorComponent implements OnInit {
     private fb: FormBuilder,
     private integralService: IntegralService
   ) {    this.integralForm = this.fb.group({
-      function: ['x^2', [Validators.required, functionValidator]],
+      function: ['2x+1', [Validators.required, functionValidator]],
       startX: [-1, [Validators.required]],
       endX: [1, [Validators.required]]
     }, {
