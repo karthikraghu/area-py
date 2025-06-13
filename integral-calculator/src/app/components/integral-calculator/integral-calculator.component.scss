@@ -1,57 +1,160 @@
 :host {
   display: block;
-  background-color: #f0f5f5;
   min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.form-group {
-  margin-bottom: 1rem;
-  
-  label {
-    margin-bottom: 0.5rem;
-    display: block;
+// Clean layout styling
+.container {
+  max-width: 1400px;
+}
+
+// Input panel optimization
+.lg\:col-span-2 {
+  .bg-white {
+    min-height: auto;
     
-    &.function-label {
-      margin-bottom: 0;
-      pointer-events: none; // Allow clicks to pass through to the input
+    // Remove scrollbar styles since we're not using overflow
+  }
+}
+
+// Chart panel optimization
+.lg\:col-span-4 {
+  .bg-white {
+    min-height: auto;
+  }
+}
+
+// Form elements styling
+input[type="text"], 
+input[type="number"], 
+select {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  }
+}
+
+// Button styling
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Chart container styling
+canvas {
+  border-radius: 8px;
+  background: white;
+}
+
+// Panel headers
+.border-b {
+  border-color: #e2e8f0 !important;
+}
+
+// Information grid styling
+.grid.md\:grid-cols-3 {
+  > div {
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+    
+    h3 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
       
-      span {
-        color: #009999;
-        font-size: 1.1rem;
-        text-shadow: 0 0 1px rgba(0, 153, 153, 0.3);
+      svg {
+        margin-right: 8px;
       }
     }
-    
-    .font-mono {
-      color: #009999;
-      margin-right: 0.25rem;
-      font-size: 1.1rem;
-      text-shadow: 0 0 1px rgba(0, 153, 153, 0.3);
+  }
+}
+
+// Results display styling
+.bg-siemens-lightgray {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+// Error styling
+.bg-red-50 {
+  background-color: #fef2f2;
+}
+
+// Success/info styling
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+.bg-green-50 {
+  background-color: #f0fdf4;
+}
+
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .lg\:col-span-1,
+  .lg\:col-span-4 {
+    .bg-white {
+      height: auto;
+      min-height: 400px;
     }
   }
+  
+  .grid.lg\:grid-cols-5 {
+    gap: 1rem;
+  }
+}
+
+// Animation classes
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+// Shadow utilities
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  transition: all 0.2s;
-  height: 42px; // Fixed height for consistent appearance
-
-  &:focus {
-    outline: none;
-    border-color: #009999;
-    box-shadow: 0 0 0 3px rgba(0, 153, 153, 0.1);
-  }
-
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  
   &::placeholder {
-    color: #9ca3af;
-    opacity: 0.7;
+    color: rgb(148, 163, 184);
+    opacity: 0.8;
   }
+  
+  &:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.1), 
+                0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+  
   &[type="number"] {
-    appearance: textfield; // Standard property
-    -moz-appearance: textfield; // Remove spinner for Firefox
+    appearance: textfield;
+    -moz-appearance: textfield;
+    
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -60,174 +163,633 @@ input {
   }
 }
 
+// Button styling with hover effects
+button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+  }
+}
+
+// Canvas styling
 canvas {
   width: 100% !important;
   height: 100% !important;
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-// Card hover effects
-.bg-white {
-  transition: transform 0.2s, box-shadow 0.2s;
+// Mathematical expression styling
+.math-expression {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
   
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: rgba(248, 250, 252, 0.8);
   }
 }
 
-// Animation for area display
-.text-siemens-green {
-  transition: all 0.3s;
-  
-  &:hover {
-    color: #006666;
-    text-shadow: 0 0 5px rgba(0, 153, 153, 0.3);
-  }
-}
-
-// Nice border on inputs
-.bg-siemens-lightgray {
-  border: 1px solid rgba(0, 153, 153, 0.2);
-  transition: all 0.2s;
-  
-  &:focus {
-    background-color: white;
-    border-color: rgba(0, 153, 153, 0.5);
-  }
-}
-
-// Specific styles for the function input
-.form-group {
-  input {
-    text-overflow: ellipsis;
-    font-family: 'Consolas', 'Monaco', monospace;
-    letter-spacing: 0.01em;
-    height: 42px;
-  }
-}
-
-// KaTeX rendering styles
+// Enhanced mathematical notation display
 :host ::ng-deep {
-  .katex-display {
-    margin: 0.2em 0;
+  .MathJax {
+    font-size: 1.25em !important;
+    color: rgb(30, 41, 59);
+    transition: all 0.3s ease;
     
-    .katex {
-      font-size: 1.15em;
+    &:hover {
+      color: rgb(79, 70, 229);
     }
   }
   
-  .katex-html {
-    white-space: normal;
+  .MathJax_Display {
+    margin: 0.5em 0;
   }
   
-  // For inline math display
-  .katex {
-    font-size: 1.15em;
-    line-height: 1.2;
+  // Better spacing for mathematical elements
+  .mfrac {
+    margin: 0 0.1em;
   }
   
-  // Better spacing for superscripts like x^2
-  .katex .msupsub {
-    text-align: left;
+  .mroot {
+    margin: 0 0.1em;
   }
   
-  .katex .mord.text {
-    font-family: 'Consolas', 'Monaco', monospace;
-  }
-  
-  // Function display in results
-  .katex-display-wrapper {
-    display: inline-block;
-    padding: 0.25rem 0;
-    
-    .katex-display {
-      margin: 0;
-    }
-    
-    .katex-html {
-      padding: 0;
-      overflow-x: visible;
-      overflow-y: hidden;
-    }
+  .msubsup {
+    margin: 0 0.05em;
   }
 }
 
-// Better focus styles for buttons
-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
-}
-
-// Instructions box styling
-.instructions-box {
-  background: linear-gradient(135deg, #f0f5f5 0%, #ccffff 100%);
-  border: 1px solid rgba(0, 153, 153, 0.2);
-  border-radius: 0.5rem;
-  padding: 0.75em 1em;
-  margin-bottom: 0.8rem;
+// Code styling in quick guide
+code {
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.375rem;
   font-size: 0.875em;
-  color: #333333;
-  box-shadow: 0 2px 8px rgba(0, 153, 153, 0.1);
-  line-height: 1.6;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-  position: relative;
   transition: all 0.2s ease;
   
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 153, 153, 0.15);
-    transform: translateY(-1px);
+    transform: scale(1.05);
+  }
+}
+
+// Enhanced gradient backgrounds
+.bg-gradient-to-br {
+  background: linear-gradient(135deg, 
+    rgb(248, 250, 252) 0%, 
+    rgb(238, 242, 255) 25%,
+    rgb(240, 253, 250) 75%,
+    rgb(236, 254, 255) 100%);
+}
+
+// Animation for decorative elements
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Improved accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Responsive design improvements
+@media (max-width: 1280px) {
+  .xl\\:col-span-3 {
+    grid-column: span 2;
   }
   
-  // Add a subtle left border accent
+  .xl\\:col-span-1 {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 1024px) {
+  .lg\\:col-span-2 {
+    grid-column: span 1;
+  }
+  
+  .lg\\:col-span-1 {
+    grid-column: span 1;
+  }
+  
+  .grid-cols-1.xl\\:grid-cols-4.lg\\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .text-6xl {
+    font-size: 3rem;
+  }
+  
+  .text-7xl {
+    font-size: 3.5rem;
+  }
+}
+
+// Enhanced focus states for accessibility
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgb(79, 70, 229);
+  outline-offset: 2px;
+}
+
+// Loading states
+.loading {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Improved error states
+.border-red-400 {
+  border-color: rgb(248, 113, 113) !important;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1);
+}
+
+.text-red-500 {
+  color: rgb(239, 68, 68);
+}
+
+.bg-red-50 {
+  background-color: rgb(254, 242, 242);
+}
+
+// Success states
+.text-emerald-600 {
+  color: rgb(5, 150, 105);
+}
+
+.bg-emerald-500 {
+  background-color: rgb(16, 185, 129);
+}
+
+// Enhanced typography
+.font-black {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+// Improved spacing and layout
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.space-x-6 > * + * {
+  margin-left: 1.5rem;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-x-3 > * + * {
+  margin-left: 0.75rem;
+}
+
+.space-x-2 > * + * {
+  margin-left: 0.5rem;
+}
+
+// Predefined function buttons styling
+.function-button {
+  position: relative;
+  overflow: hidden;
+  
   &::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 4px;
+    left: -100%;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #009999, #006666);
-    border-radius: 0.5rem 0 0 0.5rem;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: left 0.5s;
   }
   
-  strong {
-    color: #009999;
-    font-weight: 600;
-    font-size: 1em;
-    text-shadow: 0 1px 2px rgba(0, 153, 153, 0.1);
+  &:hover::before {
+    left: 100%;
   }
   
-  code {
-    background: rgba(0, 153, 153, 0.1);
-    color: #006666;
-    border: 1px solid rgba(0, 153, 153, 0.2);
-    border-radius: 0.25rem;
-    padding: 0.15em 0.4em;
-    font-size: 0.9em;
-    font-family: 'Consolas', 'Monaco', monospace;
-    font-weight: 500;
-    transition: all 0.2s ease;
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// Enhanced gradient backgrounds for function buttons
+.bg-gradient-to-r {
+  &.from-blue-50 {
+    background: linear-gradient(to right, #eff6ff, #e0e7ff);
     
     &:hover {
-      background: rgba(0, 153, 153, 0.15);
-      border-color: rgba(0, 153, 153, 0.3);
+      background: linear-gradient(to right, #dbeafe, #c7d2fe);
     }
   }
   
-  .text-red-600 {
-    color: #dc2626 !important;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(220, 38, 38, 0.1);
+  &.from-green-50 {
+    background: linear-gradient(to right, #f0fdf4, #f0fdfa);
+    
+    &:hover {
+      background: linear-gradient(to right, #dcfce7, #d1fae5);
+    }
   }
   
-  .text-gray-500 {
-    color: #6b7280 !important;
+  &.from-purple-50 {
+    background: linear-gradient(to right, #faf5ff, #fdf2f8);
+    
+    &:hover {
+      background: linear-gradient(to right, #f3e8ff, #fce7f3);
+    }
+  }
+  
+  &.from-orange-50 {
+    background: linear-gradient(to right, #fff7ed, #fef2f2);
+    
+    &:hover {
+      background: linear-gradient(to right, #fed7aa, #fecaca);
+    }
+  }
+  
+  &.from-slate-50 {
+    background: linear-gradient(to right, #f8fafc, #f9fafb);
+    
+    &:hover {
+      background: linear-gradient(to right, #f1f5f9, #f3f4f6);
+    }
+  }
+}
+
+// Function mode toggle buttons
+.function-mode-toggle {
+  position: relative;
+  overflow: hidden;
+  font-weight: 500;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.3s ease;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+  
+  svg {
+    transition: transform 0.2s ease;
+  }
+  
+  &:hover svg {
+    transform: scale(1.1);
+  }
+}
+
+// Enhanced dropdown styling
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23374151' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  
+  &:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23009999' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  }
+  
+  optgroup {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: rgb(79, 70, 229);
+    background-color: rgba(79, 70, 229, 0.05);
+    padding: 0.25rem 0;
+    
+    option {
+      font-weight: 400;
+      color: rgb(55, 65, 81);
+      background-color: white;
+      padding-left: 1rem;
+      
+      &:hover {
+        background-color: rgba(0, 153, 153, 0.1);
+      }
+      
+      &:checked {
+        background-color: rgba(0, 153, 153, 0.2);
+        color: rgb(0, 153, 153);
+      }
+    }
+  }
+}
+
+// Function description card
+.function-description-card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 153, 153, 0.1);
+  animation: slideIn 0.3s ease-out;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 153, 153, 0.1);
+    border-color: rgba(0, 153, 153, 0.2);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Equal height grid panels
+.grid-equal-height {
+  display: grid;
+  grid-auto-rows: 1fr;
+}
+
+// Ensure both panels have consistent height
+.panel-height {
+  min-height: 600px;
+  height: 600px;
+}
+
+// Equal height flex containers
+.equal-height-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  height: calc(100vh - 300px);
+  min-height: 600px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: auto;
+  }
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  .panel-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Function mode toggle styling
+.function-mode-toggle {
+  font-weight: 500;
+  border: 1px solid transparent;
+  
+  &:hover {
+    border-color: rgba(79, 134, 198, 0.3);
+  }
+  
+  &.active {
+    background-color: #4f86c6;
+    color: white;
+    box-shadow: 0 2px 4px rgba(79, 134, 198, 0.2);
+  }
+}
+
+// Chart container styling
+.chart-container {
+  height: 500px;
+  min-height: 400px;
+  
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+// Grid layout improvements
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.panel {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+// Optimized layout styling
+.optimized-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr; // 40% input, 60% chart
+  gap: 1.5rem;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.compact-panel {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.chart-panel {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  
+  .chart-container {
+    background: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    height: 600px;
+    
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 0.375rem;
+    }
+  }
+}
+
+// Compact form styling
+.compact-form {
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  input, select {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+  
+  label {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// MathJax expression styling
+div[mathExpression] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  min-height: inherit !important;
+  
+  // Ensure MathJax content is perfectly centered
+  .MathJax,
+  .MathJax_Display {
+    margin: 0 auto !important;
+    text-align: center !important;
+    max-width: 100% !important;
+    font-size: 1rem !important; // 16px - matches text-base
+    line-height: 1.4 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  // Style the math content with perfect centering
+  mjx-container,
+  .mjx-chtml {
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    max-width: 100% !important;
+    font-size: 1rem !important; // 16px
+    text-align: center !important;
+    
+    // Ensure integral symbols are properly sized and centered
+    mjx-c {
+      font-size: inherit !important;
+    }
+  }
+  
+  // Fix any scaling and centering issues
+  mjx-math {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    margin: 0 auto !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 }

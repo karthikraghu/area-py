@@ -5,8 +5,7 @@ import * as katex from 'katex';
   name: 'katex',
   standalone: true
 })
-export class KatexPipe implements PipeTransform {
-  transform(value: string): string {
+export class KatexPipe implements PipeTransform {  transform(value: string): string {
     if (!value) {
       return '';
     }
@@ -19,6 +18,12 @@ export class KatexPipe implements PipeTransform {
       if (cleanValue.startsWith('$') && cleanValue.endsWith('$')) {
         cleanValue = cleanValue.slice(1, -1);
       }
+      
+      // Fix common LaTeX formatting issues for powers
+      // Ensure single digits/variables after ^ are properly wrapped in braces
+      cleanValue = cleanValue.replace(/\^([a-zA-Z0-9])/g, '^{$1}');
+      // Handle negative powers
+      cleanValue = cleanValue.replace(/\^{-([a-zA-Z0-9])}/g, '^{-$1}');
       
       return katex.renderToString(cleanValue, {
         throwOnError: false,

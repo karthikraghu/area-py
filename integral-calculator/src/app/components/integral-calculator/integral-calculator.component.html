@@ -1,197 +1,310 @@
-<div class="min-h-screen bg-gradient-to-br from-siemens-lightgray to-white py-8">
-  <div class="container mx-auto p-4 max-w-5xl">
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-siemens-green mb-2">Integral Calculator</h1>
-      <p class="text-siemens-gray">Calculate and visualize the area under a curve with real-time updates</p>
-    </div>
-      <div class="mb-4 flex items-center justify-center">
-      <span class="text-sm font-medium mr-2">Backend Status: </span>
-      <span [class]="backendStatus === 'Connected' ? 'text-green-600 font-medium flex items-center' : 'text-red-600 font-medium flex items-center'">
-        <svg *ngIf="backendStatus === 'Connected'" class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-        </svg>
-        <svg *ngIf="backendStatus !== 'Connected'" class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-        </svg>
-        {{ backendStatus }}
-      </span>
-    </div>    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-      <!-- Input Form -->
-      <div class="md:col-span-2 bg-white rounded-xl shadow-lg p-6 border border-siemens-green border-opacity-20 transition-all">
-        <h2 class="text-xl font-semibold mb-4 text-siemens-green flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path>
-          </svg>
-          Input Parameters
-        </h2>
-          <form [formGroup]="integralForm" class="space-y-4">          <div class="form-group">
-            <div class="relative rounded-md shadow-sm">
+<div class="min-h-screen bg-gray-50">  <div class="container mx-auto px-12 py-8 max-w-6xl">
+    
+    <!-- Professional Header -->
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-siemens-green mb-3">Integral Calculator</h1>
+      <p class="text-lg text-siemens-gray max-w-2xl mx-auto">
+        Professional mathematical integration tool with real-time visualization
+      </p>
+      
+      <!-- Backend Status -->
+      <div class="mt-6 inline-flex items-center bg-white rounded-lg px-4 py-2 border border-gray-200 shadow-sm">
+        <span class="text-sm font-medium text-siemens-gray mr-3">Backend Status:</span>
+        <div [class]="backendStatus === 'Connected' ? 'flex items-center text-green-600' : 'flex items-center text-red-600'">
+          <div [class]="backendStatus === 'Connected' ? 'w-2 h-2 bg-green-500 rounded-full mr-2' : 'w-2 h-2 bg-red-500 rounded-full mr-2'"></div>
+          <span class="font-medium text-sm">{{ backendStatus }}</span>
+        </div>
+      </div>
+    </header>    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-6 gap-6 mb-6 px-4">
+        <!-- INPUT PANEL (Left - 2/6 width) -->
+      <div class="lg:col-span-2"><div class="bg-white rounded-lg shadow-lg border border-gray-200 p-3 h-[700px]">
+          
+          <!-- Panel Header -->
+          <div class="flex items-center mb-3 pb-2 border-b border-gray-100">
+            <svg class="w-4 h-4 mr-2 text-siemens-green" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+            </svg>
+            <h2 class="text-lg font-semibold text-siemens-green">INPUT</h2>
+          </div>
+
+          <!-- Function Input Mode Toggle -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Function Input Mode</label>
+            <div class="flex space-x-2">
+              <button 
+                type="button"
+                [class]="useCustomFunction ? 'flex-1 px-3 py-2 bg-siemens-green text-white rounded-md text-sm font-medium transition-all duration-200 shadow-sm' : 'flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md text-sm font-medium transition-all duration-200'"
+                (click)="toggleFunctionInputMode(true)">
+                <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                </svg>
+                Custom
+              </button>
+              <button 
+                type="button"
+                [class]="!useCustomFunction ? 'flex-1 px-3 py-2 bg-siemens-green text-white rounded-md text-sm font-medium transition-all duration-200 shadow-sm' : 'flex-1 px-3 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-md text-sm font-medium transition-all duration-200'"
+                (click)="toggleFunctionInputMode(false)">
+                <svg class="w-4 h-4 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zm0 4a1 1 0 000 2h7a1 1 0 100-2H3zm0 4a1 1 0 100 2h11a1 1 0 100-2H3z" clip-rule="evenodd"></path>
+                </svg>
+                Predefined
+              </button>
+            </div>
+          </div>          <!-- Predefined Functions Dropdown -->
+          <div *ngIf="!useCustomFunction" class="mb-2">
+            <select 
+              formControlName="predefinedFunction"
+              (change)="onPredefinedFunctionChange($event)"
+              class="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-siemens-green focus:border-siemens-green">
+              <option value="" disabled>Select a function...</option>
+              
+              <optgroup label="Polynomial">
+                <option value="linear">Linear - 2x+1</option>
+                <option value="quadratic">Quadratic - x²</option>
+                <option value="cubic">Cubic - x³</option>
+                <option value="complex-poly">Complex - x⁴-3x³+x-5</option>
+              </optgroup>
+              
+              <optgroup label="Trigonometric">
+                <option value="sine">Sine - sin(x)</option>
+                <option value="cosine">Cosine - cos(x)</option>
+                <option value="sine-squared">Sin(x²) - sin(x²)</option>
+                <option value="mixed-trig">Mixed - 2x·cos(x)+sin(x)</option>
+                <option value="damped-oscillation">Damped - e⁻ˣ·sin(5x)</option>
+              </optgroup>
+              
+              <optgroup label="Exponential">
+                <option value="exponential">Growth - eˣ</option>
+                <option value="exponential-decay">Decay - e⁻ˣ</option>
+                <option value="bell-curve">Bell - e⁻ˣ²</option>
+                <option value="gaussian">Gaussian - x·e⁻ˣ²</option>
+                <option value="logarithmic">Log - x·ln(x)</option>
+              </optgroup>
+              
+              <optgroup label="Special">
+                <option value="sqrt-function">Sqrt - √x</option>
+                <option value="inverse">Inverse - 1/x</option>
+                <option value="sinc">Sinc - sin(10x)/x</option>
+                <option value="wave-packet">Wave - cos(10x)·e⁻ˣ²</option>
+              </optgroup>
+            </select>
+          </div>          <!-- Form Container -->
+          <form [formGroup]="integralForm" class="space-y-3">
+            
+            <!-- Function Input -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Mathematical Function</label>
               <input 
-                id="function-input"
                 type="text"
                 formControlName="function"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-siemens-green focus:ring-siemens-green bg-siemens-lightgray py-2 font-mono text-base tracking-wide px-3"
-                placeholder="Enter your function (e.g., 2x+1, x^2, sin(x), exp(x))"
-                [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-500': integralForm.get('function')?.invalid && integralForm.get('function')?.touched}"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-siemens-green focus:border-siemens-green font-mono text-sm"
+                placeholder="e.g., x^2, sin(x), exp(x)"
               >
-              <div *ngIf="integralForm.get('function')?.invalid && integralForm.get('function')?.touched" class="absolute inset-y-0 right-0 flex items-center pr-3">
-                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                </svg>
-              </div>
-            </div>
-            <div class="flex flex-col">              <div class="text-xs text-gray-500 mt-1">
-                Supports implicit multiplication: 2x, sin(2x), x^2+3x+1, etc. Also supports trigonometric, exponential, and logarithmic functions
-              </div>
-              <div *ngIf="integralForm.get('function')?.invalid && integralForm.get('function')?.touched" class="text-xs text-red-500 mt-1">
-                <span *ngIf="integralForm.get('function')?.errors?.['required']">Function is required</span>
-                <span *ngIf="integralForm.get('function')?.errors?.['unbalancedParentheses']">Unbalanced parentheses</span>
-                <span *ngIf="integralForm.get('function')?.errors?.['invalidOperator']">Invalid operators (++, --, **, //)</span>
-                <span *ngIf="integralForm.get('function')?.errors?.['missingVariable']">Function must use variable 'x'</span>
-              </div>
-            </div>
-          </div>          <div class="grid grid-cols-2 gap-4">            <div class="form-group">
-              <label class="block text-sm font-medium text-siemens-gray mb-1">Lower Limit</label>
-              <div class="relative rounded-md shadow-sm">                <div class="absolute inset-y-0 left-0 flex items-center">
-                  <button 
-                    type="button" 
-                    class="h-7 w-7 inline-flex items-center justify-center text-gray-500 hover:text-siemens-green"
-                    (click)="decrementLimit('startX')">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
-                    </svg>
-                  </button>
-                </div><input
-                  type="number"
-                  formControlName="startX"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-siemens-green focus:ring-siemens-green bg-siemens-lightgray py-2 pl-8 pr-8 text-center"
-                  step="0.1"
-                  [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-500': integralForm.get('startX')?.invalid && integralForm.get('startX')?.touched}"
-                >                <div class="absolute inset-y-0 right-0 flex items-center">
-                  <button 
-                    type="button" 
-                    class="h-7 w-7 inline-flex items-center justify-center text-gray-500 hover:text-siemens-green"
-                    (click)="incrementLimit('startX')">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div *ngIf="integralForm.get('startX')?.invalid && integralForm.get('startX')?.touched" class="text-xs text-red-500 mt-1">
-                Lower limit is required
+              <p class="text-xs text-gray-500 mt-1">
+                Supports: x^n, sin(x), cos(x), exp(x), log(x), complex expressions
+              </p>
+              
+              <!-- Validation Errors -->
+              <div *ngIf="integralForm.get('function')?.invalid && integralForm.get('function')?.touched" class="mt-2">
+                <p *ngIf="integralForm.get('function')?.errors?.['required']" class="text-xs text-red-600">Function is required</p>
+                <p *ngIf="integralForm.get('function')?.errors?.['unbalancedParentheses']" class="text-xs text-red-600">Unbalanced parentheses</p>
+                <p *ngIf="integralForm.get('function')?.errors?.['invalidOperator']" class="text-xs text-red-600">Invalid operators</p>
+                <p *ngIf="integralForm.get('function')?.errors?.['missingVariable']" class="text-xs text-red-600">Function must use variable 'x'</p>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="block text-sm font-medium text-siemens-gray mb-1">Upper Limit</label>
-              <div class="relative rounded-md shadow-sm">                <div class="absolute inset-y-0 left-0 flex items-center">
-                  <button 
-                    type="button" 
-                    class="h-7 w-7 inline-flex items-center justify-center text-gray-500 hover:text-siemens-green"
-                    (click)="decrementLimit('endX')">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
-                    </svg>
-                  </button>
-                </div><input
-                  type="number"
-                  formControlName="endX"
-                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-siemens-green focus:ring-siemens-green bg-siemens-lightgray py-2 pl-8 pr-8 text-center"
-                  step="0.1"
-                  [ngClass]="{'border-red-500 focus:border-red-500 focus:ring-red-500': integralForm.get('endX')?.invalid && integralForm.get('endX')?.touched}"
-                >                <div class="absolute inset-y-0 right-0 flex items-center">
-                  <button 
-                    type="button" 
-                    class="h-7 w-7 inline-flex items-center justify-center text-gray-500 hover:text-siemens-green"
-                    (click)="incrementLimit('endX')">
-                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
-                    </svg>
-                  </button>
+            <!-- Integration Limits -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Integration Limits</label>
+              <div class="grid grid-cols-2 gap-4">
+                
+                <!-- Lower Limit -->
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Lower Limit</label>
+                  <div class="relative">                    <button 
+                      type="button" 
+                      class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-siemens-green transition-colors z-10"
+                      (click)="decrementLimit('startX')">
+                      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </button>
+                    <input
+                      type="number"
+                      formControlName="startX"
+                      class="w-full px-8 py-2 border border-gray-300 rounded-md text-center font-mono text-sm focus:outline-none focus:ring-2 focus:ring-siemens-green focus:border-siemens-green"
+                      step="0.1"
+                    >
+                    <button 
+                      type="button" 
+                      class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-siemens-green transition-colors z-10"
+                      (click)="incrementLimit('startX')">
+                      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Upper Limit -->
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Upper Limit</label>
+                  <div class="relative">                    <button 
+                      type="button" 
+                      class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-siemens-green transition-colors z-10"
+                      (click)="decrementLimit('endX')">
+                      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </button>
+                    <input
+                      type="number"
+                      formControlName="endX"
+                      class="w-full px-8 py-2 border border-gray-300 rounded-md text-center font-mono text-sm focus:outline-none focus:ring-2 focus:ring-siemens-green focus:border-siemens-green"
+                      step="0.1"
+                    >
+                    <button 
+                      type="button" 
+                      class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-siemens-green transition-colors z-10"
+                      (click)="incrementLimit('endX')">
+                      <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div *ngIf="integralForm.get('endX')?.invalid && integralForm.get('endX')?.touched" class="text-xs text-red-500 mt-1">
-                Upper limit is required
+              
+              <!-- Limit Validation Error -->
+              <div *ngIf="integralForm.errors?.['invalidLimitRange'] && (integralForm.get('startX')?.touched || integralForm.get('endX')?.touched)" 
+                   class="mt-3 p-2 bg-red-50 text-red-600 rounded-md text-sm border border-red-200">
+                Upper limit must be greater than lower limit
               </div>
             </div>
-          </div>
-          
-          <div *ngIf="integralForm.errors?.['invalidLimitRange'] && (integralForm.get('startX')?.touched || integralForm.get('endX')?.touched)" class="text-xs text-red-500 mt-1 text-center">
-            Upper limit must be greater than lower limit
-          </div>
-        </form>        <div *ngIf="result" class="mt-6 pt-4 border-t border-gray-200">
-          <div class="mb-3">
-            <div class="mb-1 font-medium text-siemens-gray">Function:</div>
-            <div class="px-4 py-2 bg-siemens-lightgray rounded-md text-center overflow-x-auto">
-              <span class="katex-display-wrapper" [innerHTML]="result.latex_expression | katex"></span>
-            </div>
-          </div>
-          
-          <div class="flex items-center mt-3">
-            <span class="font-medium text-siemens-gray">Area:</span>
-            <div class="ml-2 px-3 py-1 bg-siemens-light rounded-lg">
-              <span class="text-xl text-siemens-green font-semibold">{{ result.area | number:'1.6-6' }}</span>
-            </div>
-          </div>          <div class="instructions-box mt-3">
+          </form>          <!-- Results Display -->
+          <div *ngIf="result" class="mt-3 pt-3 border-t border-gray-200">
+            
+            <!-- Calculated Area -->
             <div class="mb-2">
-              <strong>📝 Quick Guide:</strong> Use <code>^</code> for powers (<code>x^2</code>), <code>exp(x)</code> for exponentials, <code>log(x)</code> for natural log.
+              <label class="block text-sm font-medium text-gray-700 mb-1">Calculated Area</label>
+              <div class="bg-siemens-lightgray rounded-lg p-2 text-center border border-gray-200">
+                <span class="text-lg font-bold text-siemens-green">{{ result.area | number:'1.6-6' }}</span>
+              </div>
+            </div>            <!-- Mathematical Expression -->
+            <div class="mb-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Definite Integral</label>
+              <div class="bg-gray-50 rounded-lg px-3 py-4 border border-gray-200 flex items-center justify-center min-h-[70px]">
+                <div #mathExpression class="text-base text-center w-full flex items-center justify-center">
+                  <!-- MathJax renders here -->
+                </div>
+              </div>
             </div>
-            <div class="text-red-600">
-              <strong>⚠️ Avoid:</strong> <code>**</code>, <code>e^x</code>, <code>ln(x)</code>, <code>log10(x)</code>
-            </div>
-          </div>
-
-          <div *ngIf="result.error" class="text-red-600 mt-2 text-sm">
+          </div>          <!-- Error Display -->
+          <div *ngIf="result?.error" class="mt-3 p-2 bg-red-50 text-red-600 rounded-md text-sm border border-red-200">
             {{ result.error }}
           </div>
-        </div>
 
-        <div *ngIf="error" class="mt-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">
-          {{ error }}
+          <div *ngIf="error" class="mt-3 p-2 bg-red-50 text-red-600 rounded-md text-sm border border-red-200">
+            {{ error }}
+          </div>
         </div>
-      </div>      <!-- Graph Area -->      <div class="md:col-span-3 bg-white rounded-xl shadow-lg p-6 border border-siemens-green border-opacity-20 transition-all">
-        <h2 class="text-xl font-semibold mb-4 text-siemens-green flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2h10a1 1 0 100-2H3zm0 4a1 1 0 000 2h6a1 1 0 100-2H3zm0 4a1 1 0 100 2h10a1 1 0 100-2H3z" clip-rule="evenodd"></path>
-            <path d="M3 15a1 1 0 011-1h2a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
-          </svg>
-          Visualization
-        </h2>
-        <div class="h-[450px] bg-white rounded-lg">
-          <canvas #integralChart></canvas>
-        </div>
-        <div *ngIf="result" class="mt-3 text-center text-sm text-gray-600">
-          <div class="flex justify-center items-center space-x-4">
+      </div>      <!-- CHART PANEL (Right - 4/6 width) -->
+      <div class="lg:col-span-4">
+        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-6 h-[700px]">
+          
+          <!-- Panel Header -->
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
             <div class="flex items-center">
-              <div class="w-3 h-3 bg-siemens-green rounded-full mr-1"></div>
-              <span>Function</span>
+              <svg class="w-5 h-5 mr-3 text-siemens-green" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 000 2h10a1 1 0 100-2H3zm0 4a1 1 0 000 2h6a1 1 0 100-2H3zm0 4a1 1 0 100 2h10a1 1 0 100-2H3z" clip-rule="evenodd"></path>
+              </svg>              <h2 class="text-xl font-semibold text-siemens-green">CHART</h2>
             </div>
-            <div class="flex items-center">
-              <div class="w-3 h-3 bg-siemens-light rounded-full mr-1"></div>
-              <span>Area</span>
+              <!-- Chart Legend -->
+            <div *ngIf="result" class="flex items-center space-x-6 text-sm">
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-teal-500 rounded-full mr-2"></div>
+                <span class="text-gray-700">Function Curve</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-teal-200 rounded-full mr-2"></div>
+                <span class="text-gray-700">Integrated Area</span>
+              </div>
             </div>
+          </div>          <!-- Chart Container -->
+          <div class="bg-gray-50 rounded-lg p-4 h-[580px] border border-gray-200">
+            <canvas #integralChart class="w-full h-full rounded"></canvas>
           </div>
         </div>
       </div>
-    </div>    <!-- Math Explanation Section -->    <div class="bg-white rounded-xl shadow-lg p-6 border border-siemens-green border-opacity-20 mt-6 transition-all">
-      <h2 class="text-xl font-semibold mb-4 text-siemens-green flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    </div>
+
+    <!-- BOTTOM INFORMATION SECTION -->
+    <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-6">
+      
+      <!-- Section Header -->
+      <div class="flex items-center mb-6 pb-4 border-b border-gray-100">
+        <svg class="w-5 h-5 mr-3 text-siemens-green" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
         </svg>
-        How It Works
-      </h2>
-      <div class="text-siemens-gray">
-        <p class="mb-2">The definite integral of a function f(x) from a to b represents the area under the curve from x=a to x=b.</p>
-        <p class="mb-2">Mathematically, it is written as:</p>
-        <div class="my-3 text-center">
-          <span class="text-lg" [innerHTML]="'\\int_{a}^{b} f(x) dx' | katex"></span>
-        </div>
-        <p>This calculator uses numerical integration methods on the backend to compute accurate results for a wide range of mathematical functions.</p>
+        <h2 class="text-xl font-semibold text-siemens-green">VISUALIZATION & OTHER</h2>
       </div>
-    </div>    <footer class="mt-8 text-center text-siemens-gray text-sm">
-      <p>Integral Calculator © 2025 | All calculations performed on the backend for accuracy</p>
+      
+      <!-- Information Grid -->
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <!-- About Integration -->
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <h3 class="font-semibold text-siemens-green mb-3 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            About Integration
+          </h3>
+          <p class="text-sm text-gray-700 leading-relaxed">
+            The definite integral calculates the exact area under a curve between two points. 
+            This fundamental concept is essential in physics, engineering, and data analysis for 
+            solving real-world problems.
+          </p>
+        </div>
+        
+        <!-- Supported Functions -->
+        <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+          <h3 class="font-semibold text-siemens-green mb-3 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zm0 4a1 1 0 000 2h7a1 1 0 100-2H3zm0 4a1 1 0 100 2h11a1 1 0 100-2H3z" clip-rule="evenodd"></path>
+            </svg>
+            Supported Functions
+          </h3>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li>• <strong>Polynomials:</strong> x², x³, 2x+1</li>
+            <li>• <strong>Trigonometric:</strong> sin(x), cos(x)</li>
+            <li>• <strong>Exponential:</strong> exp(x), e^(-x)</li>
+            <li>• <strong>Complex:</strong> x*sin(x), exp(-x²)</li>
+          </ul>
+        </div>
+
+        <!-- Quick Tips -->
+        <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+          <h3 class="font-semibold text-siemens-green mb-3 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+            </svg>
+            Quick Tips
+          </h3>
+          <ul class="text-sm text-gray-700 space-y-1">
+            <li>• Use predefined functions for instant setup</li>
+            <li>• Adjust limits with +/- buttons</li>
+            <li>• Mathematical notation supported</li>
+            <li>• Real-time visualization updates</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-gray-500 text-sm py-4">
+      <p>Integral Calculator © 2025 | Professional Mathematical Computing</p>
     </footer>
   </div>
 </div>
