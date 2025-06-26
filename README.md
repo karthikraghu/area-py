@@ -1,4 +1,8 @@
-# Integral Calculator
+# Integral Calculator ![Uploading image.png…]()
+![Uploading image.png…]()
+![Uploading image.png…]()
+![Uploading image.png…]()
+
 
 A full-stack web application for calculating definite integrals of mathematical functions, featuring real-time updates and interactive visualization with natural mathematical expression input.
 
@@ -22,19 +26,18 @@ A full-stack web application for calculating definite integrals of mathematical 
 - **Python 3.8+** with FastAPI for high-performance API
 - **SymPy** for symbolic mathematics and expression parsing
 - **SciPy** for numerical integration
-- **Matplotlib** for function visualization
+
 
 ### Frontend
 
 - **Angular 18+** with standalone components
 - **TypeScript** for type safety
 - **Tailwind CSS** for modern styling
-- **KaTeX** for mathematical expression rendering
+
 
 ### Testing
 
 - **pytest** for backend testing
-- **Jasmine/Karma** for frontend testing
 - Comprehensive test coverage for all features
 
 ---
