@@ -1,8 +1,4 @@
-# Integral Calculator ![Uploading image.png…]()
-![Uploading image.png…]()
-![Uploading image.png…]()
-![Uploading image.png…]()
-
+# Integral Calculator 
 
 A full-stack web application for calculating definite integrals of mathematical functions, featuring real-time updates and interactive visualization with natural mathematical expression input.
 
