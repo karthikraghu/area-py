@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sympy import Symbol, latex, diff, solve, limit, oo, solveset, S
+from sympy import Symbol, latex, diff, solve, limit, oo
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
 from scipy import integrate
 import numpy as np
@@ -133,7 +133,7 @@ async def calculate_derivative(request: DerivativeRequest):
         if request.eval_point is not None:
             try:
                 derivative_value = float(derivative_expr.subs(x, request.eval_point))
-            except:
+            except (TypeError, ValueError, AttributeError):
                 derivative_value = None
         
         # Generate function and derivative points for plotting
@@ -148,12 +148,12 @@ async def calculate_derivative(request: DerivativeRequest):
                 try:
                     y_val = float(expr.subs(x, x_val))
                     function_points.append({"x": float(x_val), "y": y_val})
-                except:
+                except (TypeError, ValueError, AttributeError):
                     pass
                 try:
                     dy_val = float(derivative_expr.subs(x, x_val))
                     derivative_points.append({"x": float(x_val), "y": dy_val})
-                except:
+                except (TypeError, ValueError, AttributeError):
                     pass
         
         return DerivativeResponse(
@@ -221,7 +221,7 @@ async def find_critical_points(request: CriticalPointsRequest):
             try:
                 y_val = float(expr.subs(x, x_val))
                 function_points.append({"x": float(x_val), "y": y_val})
-            except:
+            except (TypeError, ValueError, AttributeError):
                 pass
         
         latex_expr = latex(expr)
