@@ -1,11 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sympy import Symbol, latex
+from sympy import Symbol, latex, diff, solve, limit, oo
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
 from scipy import integrate
 import numpy as np
-from typing import Optional
+from typing import Optional, List
 
 app = FastAPI()
 
@@ -29,6 +29,42 @@ class IntegralResponse(BaseModel):
     latex_expression: str
     area: float
     function_points: list = []
+    error: Optional[str] = None
+
+class DerivativeRequest(BaseModel):
+    function_string: str
+    eval_point: Optional[float] = None
+    start_x: Optional[float] = None
+    end_x: Optional[float] = None
+
+class DerivativeResponse(BaseModel):
+    latex_expression: str
+    derivative_latex: str
+    derivative_value: Optional[float] = None
+    function_points: list = []
+    derivative_points: list = []
+    error: Optional[str] = None
+
+class CriticalPointsRequest(BaseModel):
+    function_string: str
+    start_x: float
+    end_x: float
+
+class CriticalPointsResponse(BaseModel):
+    latex_expression: str
+    critical_points: list = []
+    function_points: list = []
+    error: Optional[str] = None
+
+class LimitRequest(BaseModel):
+    function_string: str
+    approach_value: float
+    direction: Optional[str] = None  # '+', '-', or None for both sides
+
+class LimitResponse(BaseModel):
+    latex_expression: str
+    limit_value: Optional[float] = None
+    limit_latex: str
     error: Optional[str] = None
 
 @app.get("/test")
@@ -71,6 +107,172 @@ async def calculate_integral(request: IntegralRequest):
             area=area,
             function_points=function_points,
             error=None if error < 1e-10 else f"Numerical error: {error}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+@app.post("/calculate-derivative", response_model=DerivativeResponse)
+async def calculate_derivative(request: DerivativeRequest):
+    try:
+        x = Symbol('x')
+        transformations = standard_transformations + (convert_xor, implicit_multiplication_application,)
+        expr = parse_expr(request.function_string, transformations=transformations)
+        
+        # Calculate the derivative
+        derivative_expr = diff(expr, x)
+        
+        # Generate LaTeX strings
+        latex_expr = latex(expr)
+        derivative_latex = latex(derivative_expr)
+        
+        # Calculate derivative value at evaluation point if provided
+        derivative_value = None
+        if request.eval_point is not None:
+            try:
+                derivative_value = float(derivative_expr.subs(x, request.eval_point))
+            except (TypeError, ValueError, AttributeError):
+                derivative_value = None
+        
+        # Generate function and derivative points for plotting
+        function_points = []
+        derivative_points = []
+        
+        if request.start_x is not None and request.end_x is not None:
+            num_points = 200
+            x_values = np.linspace(request.start_x, request.end_x, num_points)
+            
+            for x_val in x_values:
+                try:
+                    y_val = float(expr.subs(x, x_val))
+                    function_points.append({"x": float(x_val), "y": y_val})
+                except (TypeError, ValueError, AttributeError):
+                    pass
+                try:
+                    dy_val = float(derivative_expr.subs(x, x_val))
+                    derivative_points.append({"x": float(x_val), "y": dy_val})
+                except (TypeError, ValueError, AttributeError):
+                    pass
+        
+        return DerivativeResponse(
+            latex_expression=latex_expr,
+            derivative_latex=derivative_latex,
+            derivative_value=derivative_value,
+            function_points=function_points,
+            derivative_points=derivative_points,
+            error=None
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+@app.post("/find-critical-points", response_model=CriticalPointsResponse)
+async def find_critical_points(request: CriticalPointsRequest):
+    try:
+        x = Symbol('x')
+        transformations = standard_transformations + (convert_xor, implicit_multiplication_application,)
+        expr = parse_expr(request.function_string, transformations=transformations)
+        
+        # Calculate the first derivative
+        first_derivative = diff(expr, x)
+        
+        # Calculate the second derivative for classification
+        second_derivative = diff(first_derivative, x)
+        
+        # Solve for critical points where first derivative equals zero
+        critical_solutions = solve(first_derivative, x)
+        
+        # Filter and classify critical points within the given range
+        critical_points = []
+        for sol in critical_solutions:
+            try:
+                sol_float = float(sol)
+                if request.start_x <= sol_float <= request.end_x:
+                    # Classify the critical point using second derivative test
+                    second_deriv_val = float(second_derivative.subs(x, sol_float))
+                    func_val = float(expr.subs(x, sol_float))
+                    
+                    if second_deriv_val > 0:
+                        point_type = "minimum"
+                    elif second_deriv_val < 0:
+                        point_type = "maximum"
+                    else:
+                        point_type = "inflection"
+                    
+                    critical_points.append({
+                        "x": sol_float,
+                        "y": func_val,
+                        "type": point_type
+                    })
+            except (TypeError, ValueError):
+                # Skip complex or non-numeric solutions
+                pass
+        
+        # Generate function points for plotting
+        num_points = 200
+        x_values = np.linspace(request.start_x, request.end_x, num_points)
+        function_points = []
+        
+        for x_val in x_values:
+            try:
+                y_val = float(expr.subs(x, x_val))
+                function_points.append({"x": float(x_val), "y": y_val})
+            except (TypeError, ValueError, AttributeError):
+                pass
+        
+        latex_expr = latex(expr)
+        
+        return CriticalPointsResponse(
+            latex_expression=latex_expr,
+            critical_points=critical_points,
+            function_points=function_points,
+            error=None
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+@app.post("/calculate-limit", response_model=LimitResponse)
+async def calculate_limit(request: LimitRequest):
+    try:
+        x = Symbol('x')
+        transformations = standard_transformations + (convert_xor, implicit_multiplication_application,)
+        expr = parse_expr(request.function_string, transformations=transformations)
+        
+        # Calculate limit based on direction
+        if request.direction == '+':
+            limit_result = limit(expr, x, request.approach_value, '+')
+        elif request.direction == '-':
+            limit_result = limit(expr, x, request.approach_value, '-')
+        else:
+            limit_result = limit(expr, x, request.approach_value)
+        
+        # Try to convert to float
+        limit_value = None
+        try:
+            if limit_result == oo:
+                limit_latex = r"\infty"
+            elif limit_result == -oo:
+                limit_latex = r"-\infty"
+            else:
+                limit_value = float(limit_result)
+                limit_latex = latex(limit_result)
+        except (TypeError, ValueError):
+            limit_latex = latex(limit_result)
+        
+        latex_expr = latex(expr)
+        
+        return LimitResponse(
+            latex_expression=latex_expr,
+            limit_value=limit_value,
+            limit_latex=limit_latex,
+            error=None
         )
     except Exception as e:
         raise HTTPException(
